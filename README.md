@@ -2,9 +2,9 @@
 fm_system Django  project 폴더
 
 # pip install
-pip install paddlepaddle
-pip install "paddleocr>=2.0.1"
-pip install mysqlclient
+pip install paddlepaddle <br>
+pip install "paddleocr>=2.0.1" <br>
+pip install mysqlclient <br>
 
 ### mySQL 기본 데이터 삽입 코드 ###
 -- visualization_code 테이블에 코드 정보 추가
