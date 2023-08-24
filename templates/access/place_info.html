@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구역별 실시간 확인</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #warning-msg {
+            color: red;
+            font-weight: bold;
+        }
+        #ok-msg{
+            color: blue;
+            font-weight: bold;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container">
+        <br>
+        <h2>실시간 구역별 인원수</h2>
+        <br>
+        {% if datas %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>구역 코드</th>
+                    <th>구역 위치</th>
+                    <th>현재 인원수</th>
+                    <th>위험도</th>
+                    <th>기준 인원</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for data in datas %}
+                <tr>
+                    <td>{{ data.구역코드 }}</td>
+                    <td>{{ data.구역_위치 }}</td>
+                    <td>{{ data.현재_인원수 }}</td>
+                    <td>{{ data.위험도 }}</td>
+                    <td>{{ data.기준_인원 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p id="ok-msg">모든 작업 구역에 작업자가 없습니다.</p>
+        {% endif %}
+
+        {% if datas %}
+            {% for data in datas %}
+                {% if data.기준_인원 > data.현재_인원수 %}
+                <p id="warning-msg">!!!! 경고 : {{ data.구역_위치 }} - 기준 인원 {{ data.미달_인원 }}명 미달 !!!!</p>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
