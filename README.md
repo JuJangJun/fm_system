@@ -26,3 +26,14 @@ INSERT INTO attend_workers values (501, '나승주', 419, '010-6601-9990', '3350
 -- access_place 테이블에 구역 정보 추가 <br>
 INSERT INTO access_place values ('A1', '위험하지 않은 구역 어딘가', 1, 1), ('A100', '위험 구역 어딘가', 5, 3), ('A50', '보통~', 3, 2);
 
+-- new_month_safetycnt_view 뷰 생성 <br>
+CREATE VIEW new_month_safetycnt_view AS 
+SELECT NULL AS id, MONTH(aa.attend_time) as 'month', sc.sc_code as 'code',
+       COUNT(*) as 'code_count',
+       vc.content as 'content'
+FROM attend_safety_check sc
+INNER JOIN visualization_codes vc ON sc.sc_code = vc.code  
+INNER JOIN attend_attendance aa ON sc.att_id_id = aa.att_id 
+GROUP BY month(aa.attend_time), sc.sc_code;
+
+
