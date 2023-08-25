@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'access', 'attend', 'login', 'visualization',
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
-    'channels',
+    'channels','corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django_plotly_dash.middleware.BaseMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -50,7 +51,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware"
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -77,17 +78,20 @@ ASGI_APPLICATION = "config.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'fms_db',
-        'USER': 'fms_root',
-        'PASSWORD': 'fms_root1!',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
+import sys
+sys.path.append(r'C:\db_setting')
+import jjjdb
+DATABASES = jjjdb.DATABASES
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'fms_db',
+#         'USER': 'fms_root',
+#         'PASSWORD': 'fms_root1!',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
 
 
 
@@ -124,8 +128,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS =True
 
-STATIC_URL = "static/"
+
+STATIC_URL = "/static/"
 
 STATIC_PATH = os.path.join(
     BASE_DIR, "static"

@@ -1,14 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+    {% load static %}   
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>퇴근 확인</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet"><!--폰트-->
+    <script src="{% static 'js/hover.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/webcam.css' %}">
+    
+
 </head>
 <body>
-    <h2>퇴근 확인</h2><hr>
-    <h4>작업자 아이디 : {{ wid }}</h4>
-    <h4>확률 : {{ confidence }}</h4>
-    <a>{{ msg }}</a>
+    <div id="left">
+        <div class="header-sidebar">
+            <div id="company-logo">
+                <a href="">
+                <img src="{% static 'src/logo.png' %}">
+                </a>
+            </div>
+
+            <div id="company-name">
+                Factory<br>Manager
+            </div>
+
+        </div>
+        <ul id="menu-sidebar">
+            <li onmouseover="overDash()" onmouseout="outDash()"><a href="{% url 'user-dashboard' %}"><div><img id="image_dash" src="{% static 'src/dashboard_gray.png' %}" alt="dashboard"></div><div style="margin-left:5px; ">대시보드</div></a></li>
+            <li onmouseover="overWebcam()" onmouseout="outWebcam()"><a href="{% url 'user-webcam' %}"><div><img id="image_web" src="{% static 'src/webcam_gray.png' %}" alt="webcam"></div><div style="margin-left:5px;" >출근</div></a></li>
+            <li><a href="{% url 'check_leave' %}"><div><img id="image_web" src="{% static 'src/webcam.png' %}" alt="webcam"></div><div style="margin-left:5px; color:#312D81" >퇴근</div></a></li>
+            <li onmouseover="overStat()" onmouseout="outStat()"><a href="{% url 'user-statistics' %}"><div><img id="image_stat" src="{% static 'src/statistics_gray.png' %}" alt="statistics"></div><div style="margin-left:5px;">통계</div></a></li>
+            <li onmouseover="overWork()" onmouseout="outWork()"><a href="{% url 'user-workarea' %}"><div><img id="image_work" src="{% static 'src/work-area_gray.png' %}" alt="work-area"></div><div style="margin-left:5px;">작업구역</div></a></li>
+            
+            
+            <!-- <li><a href="example_1/index.html"><div><img id="image_dash" src="{% static 'src/dashboard_gray.png' %}" alt="dashboard"></div><div style="margin-left:5px; ">대시보드</div></a></li>
+            <li><a href=""><div><img id="image_web" src="{% static 'src/webcam.png' %}" alt="webcam"></div><div style="margin-left:5px; color:#312D81" >웹캠</div></a></li>
+            <li><a href='statistics/'><div><img id="image_stat" src="{% static 'src/statistics_gray.png' %}" alt="statistics"></div><div style="margin-left:5px;">통계</div></a></li>
+            <li><a href='workarea/'><div><img id="image_work" src="{% static 'src/work-area_gray.png' %}" alt="work-area"></div><div style="margin-left:5px;">작업구역</div></a></li> -->
+        </ul>
+    </div>
+    <div id="right">
+        <div class="page-name">
+            <div id="page-name-eg">Webcam</div>
+            <div id="page-name-kr">퇴근</div>
+        </div>
+        <div class="content">
+            <div class="content-1">
+                <div>
+                    <!-- width="380" height="400" -->
+                    <video id="video" width="480" height="540" autoplay></video>
+                    <button id="capture">Capture</button>
+                    <!-- {{cam}}웹캠 들어가는 곳 -->
+                    <!-- <img src = "http://127.0.0.1:8000/detectme"/> -->
+                    
+                </div>
+            </div>
+            <div class="content-2">
+                <div class="content-2_1">
+                    <div class="webcam_title">인식 정보</div>
+                    <ul class="webcam_info"><!-- 정보 데이터 들어가는 곳 -->
+                        <li style="margin-bottom:50px;"><div>PIN : </div><div> {{ wid }}</div></li>
+                        <li style="margin-bottom:50px;"><div>Worker : </div><div> {{ wname }}</div></li>
+                    </ul>
+                </div>
+                <div class="content-2_2"><!-- 웹캠 문구 확인 문구 들어가는 곳 -->
+                {{ msg }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    function overDash(){
+        let image = document.getElementById('image_dash');
+        image.setAttribute("src", "{% static 'src/dashboard.png' %}")
+    }
+    function outDash(){
+        let image = document.getElementById('image_dash');
+        image.setAttribute("src", "{% static 'src/dashboard_gray.png' %}")
+    }
+    function overWebcam() {
+        let image = document.getElementById('image_web');
+        image.setAttribute("src", "{% static 'src/webcam.png' %}")
+    }
+    function outWebcam(){
+        let image = document.getElementById('image_web');
+        image.setAttribute("src", "{% static 'src/webcam_gray.png' %}")
+    }
+    function overStat() {
+        let image = document.getElementById('image_stat');
+        image.setAttribute("src", "{% static 'src/statistics.png' %}")
+    }
+    function outStat(){
+        let image = document.getElementById('image_stat');
+        image.setAttribute("src", "{% static 'src/statistics_gray.png' %}")
+    }
+    function overWork() {
+        let image = document.getElementById('image_work');
+        image.setAttribute("src", "{% static 'src/work-area.png' %}")
+    }
+    function outWork(){
+        let image = document.getElementById('image_work');
+        image.setAttribute("src", "{% static 'src/work-area_gray.png' %}")
+    }
+
+
+
+    </script>
 </body>
 </html>

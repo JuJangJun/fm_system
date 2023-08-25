@@ -4,18 +4,11 @@ from dash import Dash, Input, Output, callback, dcc, html
 from django_plotly_dash import DjangoDash
 
 import plotly.graph_objs as go
-
-
 from .models import MonthSafetyCntView
-
-
 
 
 # Important: Define Id for Plotly Dash integration in Django
 app = DjangoDash('dash_integration_id')
-
-
-
 
 
 

@@ -1,4 +1,6 @@
 from django.shortcuts import render
+# from access.views import getDatas
+
 
 # Create your views here.
 def show(request):

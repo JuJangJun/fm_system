@@ -5,10 +5,9 @@ from django.db import models
 class Codes(models.Model):
     code = models.CharField(max_length=20, primary_key=True)  # 경고 코드
     content = models.CharField(max_length=50, null=False)  # 경고 내용
-    # category = models.CharField(max_length=20, null=False)  # 코드 종류
 
 
-#### 월별 보호구 코드별 인원수 조회 뷰 ####
+# #### 월별 보호구 코드별 인원수 조회 뷰 ####
 class MonthSafetyCntView(models.Model):
     id = models.AutoField(primary_key=True)  # id 필드 추가
     month = models.IntegerField()

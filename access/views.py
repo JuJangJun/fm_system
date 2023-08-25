@@ -7,7 +7,7 @@ from django.utils.timezone import now
 from .models import *
 from pOCR import OCRmodel
 import re
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from attend.models import Workers
 # Create your views here.
 
@@ -15,7 +15,7 @@ from attend.models import Workers
 
 #### 위험 지역 입출력 함수 ####
 ocr_model2 = OCRmodel()  # 모델 로드
-img = r"C:\Users\Playdata\Desktop\gungseo\501.png"
+img = r"C:\Users\Playdata\Desktop\gungseo\531.png"
 today = date.today()  # today 날짜 출력
 
 def access_inout(request):
@@ -40,8 +40,17 @@ def access_inout(request):
 
             ### (1) out_time 없는 경우 out_time = now
             if not last_access.out_time:
+
+                elapsed_minutes = (datetime.now() - last_access.in_time.replace(tzinfo=None)).total_seconds() / 60
+
+                if elapsed_minutes < 1:  ## 다시 입력된 시간이 1분 미만인 경우 
+                    print(f'{wid[0]}, {pid}, in_time={last_access.in_time.strftime("%Y-%m-%d %H:%M:%S")} >>> 아직 1분 미만!!!')
+                    return render(request, 'access/access.html', 
+                                {'wid_in': wid[0], 'msg1': f'{pid} 구역 IN == {last_access.in_time.strftime("%Y-%m-%d %H:%M:%S")}','wid_out': '', 'msg2': '아직 1분 미만임'})
+                
                 last_access.out_time = datetime.now()
                 last_access.save()
+
                 print(f'{wid[0]}, {pid}, in_time = {last_access.in_time.strftime("%Y-%m-%d %H:%M:%S")} >>> 현재 위험 구역 벗어남!')
                 return render(request, 'access/access.html', 
                             {'wid_in' : wid[0], 'msg1': f'{pid} 구역 IN == {last_access.in_time.strftime("%Y-%m-%d %H:%M:%S")}',
@@ -61,7 +70,7 @@ def access_inout(request):
         
     except Workers.DoesNotExist:
         print(wid[0], '>> 존재하지 않는 아이디')
-        return render(request, 'attend/attend.html', {'wid': '', 'confidence': '', 'msg': wid[0]+' => 존재하지 않는 작업자 아이디입니다.'})
+        return render(request, 'attend/access.html', {'wid': '', 'confidence': '', 'msg': wid[0]+' => 존재하지 않는 작업자 아이디입니다.'})
 
 
 
@@ -97,3 +106,5 @@ def check_nums():
     )
 
     return result
+
+

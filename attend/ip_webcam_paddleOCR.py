@@ -7,7 +7,7 @@ from pOCR import OCRmodel
 
 
 url='http://192.168.0.174:8080/shot.jpg'
-ocr = OCRmodel()
+# ocr = OCRmodel()
 
 def Webcam():
     while True:
@@ -20,8 +20,8 @@ def Webcam():
 
         ######################################
         # OCR 실행
-        text, confidence = ocr.recognize(img)
-        print(text, confidence)
+        # text, confidence = ocr.recognize(img)
+        # print(text, confidence)
         
         time.sleep(0.1)
 
@@ -29,4 +29,4 @@ def Webcam():
             break
 
     cv2.destroyAllWindows()
-    return text, confidence
+    # return text, confidence
