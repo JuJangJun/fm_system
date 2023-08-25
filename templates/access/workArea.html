@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구역별 실시간 인원수 확인</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet"><!--폰트-->
+    <script src="{% static 'js/hover.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <style>
+    .content-1{
+        margin-left:40px;
+    }
+    .content-1>div{
+        display:inline-block;
+        height: 40vw;
+        width: 73vw;
+        background-color: white;
+        border-radius: 30px;
+    }
+
+    table{
+        width:100%;
+        font-family: 'Noto Sans KR', sans-serif;
+        border: 2px solid #444444;
+        border-collapse: collapse;
+        padding: 10px;
+    }
+    th, td {
+        border: 2px solid #444444;
+        padding: 10px;
+    }
+
+    #warning-msg {
+            color: red;
+            font-weight: bold;
+        }
+    #ok-msg{
+        color: blue;
+        font-weight: bold;
+    }
+    </style>
+    
+
+</head>
+<body>
+    <div id="left">
+        <div class="header-sidebar">
+            <div id="company-logo">
+                <a href="">
+                <img src="{% static 'src/logo.png' %}">
+                </a>
+            </div>
+
+            <div id="company-name">
+                Factory<br>Manager
+            </div>
+
+        </div>
+        <ul id="menu-sidebar">
+            <li onmouseover="overDash()" onmouseout="outDash()"><a href="dashboard/"><div><img id="image_dash" src="{% static 'src/dashboard_gray.png' %}" alt="dashboard"></div><div style="margin-left:5px; ">대시보드</div></a></li>
+            <li onmouseover="overWebcam()" onmouseout="outWebcam()"><a href=""><div><img id="image_web" src="{% static 'src/webcam_gray.png' %}" alt="webcam"></div><div style="margin-left:5px;" >웹캠</div></a></li>
+            <li onmouseover="overStat()" onmouseout="outStat()"><a href='statistics/'><div><img id="image_stat" src="{% static 'src/statistics_gray.png' %}" alt="statistics"></div><div style="margin-left:5px;">통계</div></a></li>
+            <li><a href='workarea/'><div><img id="image_work" src="{% static 'src/work-area.png' %}" alt="work-area"></div><div style=" color:#312D81; margin-left:5px;">작업구역</div></a></li>
+        </ul>
+    </div>
+    <div id="right">
+        <div class="page-name">
+            <div id="page-name-eg">Work Area</div>
+            <div id="page-name-kr">작업구역</div>
+        </div>
+        <div class="content">
+            <div class="content-1">
+                <div style="padding:50px"><!-- 차트 들어가는 곳 -->
+                    {% if datas %}
+                    <table><!-- 차트 들어가는 곳 -->
+                        <th>구역 코드</th>
+                        <th>구역 위치</th>
+                        <th>위험도</th>
+                        <th>기준 인원</th>
+                        <th>현재 인원수</th>
+
+                        {% for data in datas %}
+                        <tr><!-- 첫번째 데이터 -->
+                            <td>{{ data.구역코드 }}</td>
+                            <td>{{ data.구역_위치 }}</td>
+                            <td>{{ data.위험도 }}</td>
+                            <td>{{ data.기준_인원 }}</td>
+                            <td>{{ data.현재_인원수 }}</td>
+                        </tr>
+                        {% endfor %}
+                        </table>
+                        {% else %}
+                        <p id="ok-msg">모든 작업 구역에 작업자가 없습니다.</p>
+                        {% endif %}
+
+                        {% if datas %}
+                            {% for data in datas %}
+                                {% if data.기준_인원 > data.현재_인원수 %}
+                                <p id="warning-msg">!!!! 경고 : {{ data.구역_위치 }} - 기준 인원 {{ data.미달_인원 }}명 미달 !!!!</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function overDash(){
+        let image = document.getElementById('image_dash');
+        image.setAttribute("src", "{% static 'src/dashboard.png' %}")
+    }
+    function outDash(){
+        let image = document.getElementById('image_dash');
+        image.setAttribute("src", "{% static 'src/dashboard_gray.png' %}")
+    }
+    function overWebcam() {
+        let image = document.getElementById('image_web');
+        image.setAttribute("src", "{% static 'src/webcam.png' %}")
+    }
+    function outWebcam(){
+        let image = document.getElementById('image_web');
+        image.setAttribute("src", "{% static 'src/webcam_gray.png' %}")
+    }
+    function overStat() {
+        let image = document.getElementById('image_stat');
+        image.setAttribute("src", "{% static 'src/statistics.png' %}")
+    }
+    function outStat(){
+        let image = document.getElementById('image_stat');
+        image.setAttribute("src", "{% static 'src/statistics_gray.png' %}")
+    }
+    function overWork() {
+        let image = document.getElementById('image_work');
+        image.setAttribute("src", "{% static 'src/work-area.png' %}")
+    }
+    function outWork(){
+        let image = document.getElementById('image_work');
+        image.setAttribute("src", "{% static 'src/work-area_gray.png' %}")
+    }
+    </script>
+</body>
+</html>

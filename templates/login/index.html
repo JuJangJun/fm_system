@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% load static %}
-    {% load plotly_dash %}
+    {% load static %} 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>통계 시각화</title>
+    <title>Document</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet"><!--폰트-->
-    <script src="{% static 'js/hover.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script><!--Chart.js 라이브러리-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"><!--Chart.js 라이브러리-->
+    <!-- <script src="{% static 'js/hover.js' %}"></script> -->
+    <script src="{% static 'js/dashChart.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <script src="{% static 'js/statChart1.js' %}"></script>
-    <script src="{% static 'js/statChart2.js' %}"></script>
     <style>
+    
     .content{
         display:inline-flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
+    }
+    .content-1{
+        margin:0 auto;
     }
     .content-1>div{
         float:left;
-        height: 600px;
-        width: 600px;
+        height: 22vw;
+        width: 22vw;
         background-color: white;
         margin : 0px 40px 40px 40px;
         border-radius: 30px;
     }
-
+    .content-2>div{
+        background-color: white;
+        height:30vw;
+        width:75vw;
+        margin : 40px 40px 80px 40px;
+        border-radius: 30px;
+    }
     .content-1_chart{
         height: 600px;
         width: 600px;
@@ -39,14 +47,13 @@
     }
     </style>
     
+
 </head>
 <body>
     <div id="left">
         <div class="header-sidebar">
             <div id="company-logo">
-                <a href="">
                 <img src="{% static 'src/logo.png' %}">
-                </a>
             </div>
 
             <div id="company-name">
@@ -55,34 +62,30 @@
 
         </div>
         <ul id="menu-sidebar">
-            <li onmouseover="overDash()" onmouseout="outDash()"><a href="dashboard/"><div><img id="image_dash" src="{% static 'src/dashboard_gray.png' %}" alt="dashboard"></div><div style="margin-left:5px; ">대시보드</div></a></li>
+            <li><a href="dashboard/"><div><img id="image_dash" src="{% static 'src/dashboard.png' %}" alt="dashboard"></div><div style="margin-left:5px; color:#312D81">대시보드</div></a></li>
             <li onmouseover="overWebcam()" onmouseout="outWebcam()"><a href=""><div><img id="image_web" src="{% static 'src/webcam_gray.png' %}" alt="webcam"></div><div style="margin-left:5px;" >웹캠</div></a></li>
-            <li><a href='statistics/'><div><img id="image_stat" src="{% static 'src/statistics.png' %}" alt="statistics"></div><div style="margin-left:5px; color:#312D81">통계</div></a></li>
-            <li onmouseover="overWork()" onmouseout="outWork()"><a href='workarea/'><div><img id="image_work" src="{% static 'src/work-area_gray.png' %}" alt="work-area"></div><div style="margin-left:5px;">작업구역</div></a></li>
+            <li onmouseover="overStat()" onmouseout="outStat()"><a href="statistics/"><div><img id="image_stat" src="{% static 'src/statistics_gray.png' %}" alt="statistics"></div><div style="margin-left:5px;">통계</div></a></li>
+            <li onmouseover="overWork()" onmouseout="outWork()"><a href="workarea/"><div><img id="image_work" src="{% static 'src/work-area_gray.png' %}" alt="work-area"></div><div style="margin-left:5px;">작업구역</div></a></li>
         </ul>
     </div>
     <div id="right">
         <div class="page-name">
-            <div id="page-name-eg">Statistics</div>
-            <div id="page-name-kr">통계상황</div>
+            <div id="page-name-eg">Dashboard</div>
+            <div id="page-name-kr">대시보드</div>
         </div>
         <div class="content">
-            <div class="content-1"><!-- 원형 차트 들어가는 곳 -->
-                <div class="content-1_box">
-                    <div class="content-1_chart">
-                        <canvas id="pieChartCanvas1" width="420px" height="420px"></canvas>
-                    </div>
+            <div class="content-1">
+                <div class="content-1_chart"><canvas id="pieChartCanvas" width="300px" height="300px"></canvas></div>
+                <div></div>
+                <div></div>
             </div>
-                <h2>보호구 미착용 파이 차트</h2>
-                    {% plotly_app name="dash_integration_id" ratio=1.00 %}
+            <div class="content-2">
+                <div>
             </div>
         </div>
     </div>
     <script>
-        window.onload = () => {
-            pieChartDraw1();   
-            pieChartDraw2();
-        }
+        window.onload = () => pieChartDraw();   
         function overDash(){
         let image = document.getElementById('image_dash');
         image.setAttribute("src", "{% static 'src/dashboard.png' %}")

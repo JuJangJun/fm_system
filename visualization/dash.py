@@ -43,8 +43,8 @@ def get_pie_chart_data(selected_month):
 
 ## 앱 레이아웃 ##
 app.layout = html.Div([
-        html.H1(children='Visualize Item Quantities by Month'),
-        html.Div(children='Select a month to see the Pie chart of quantity distribution.'),
+        # html.H1(children='Visualize Item Quantities by Month'),
+        html.Div(children='통계 확인을 원하는 달을 고르시오'),
         dcc.Dropdown(id='month-dropdown', options=get_month(),),
         dcc.Graph(id='pie-chart'),     
         dcc.Interval(id='interval', interval=1*1000)  # Every 1 seconds
@@ -61,7 +61,7 @@ def update_graph(selected_month, n_intervals):
     fig = go.Figure(
         data=[go.Pie(labels=labels, values=values, textinfo='label+percent')]
     )
-    fig.update_layout(title=f"Item Quantities for the Month {selected_month}")
+    fig.update_layout(title=f"Month {selected_month}")
     return fig
 
 if __name__ == '__main__':

@@ -70,7 +70,7 @@ def access_inout(request):
 def getDatas(request):
     result = check_nums()
     print(result)
-    return render(request, 'access/place_info.html', {'datas': result})  # 결과 출력
+    return render(request, 'access/workArea.html', {'datas': result})  # 결과 출력
 
 
 #### 위험 지역 인원수 파악 함수 ####

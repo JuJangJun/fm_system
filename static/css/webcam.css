@@ -1,0 +1,62 @@
+.content{
+    display:inline-flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.content-1>div{
+    height:37vw;
+    width: 37vw;
+    background-color: white;
+    margin : 0px 40px 40px 40px;
+    border-radius: 30px;
+}
+.content-2_1{
+    height: 23vw;
+    width: 23vw;
+    background-color: white;
+    margin-bottom: 40px;
+    border-radius: 30px;
+}
+
+.content-2_2{
+    height: 5vw;
+    width: 23vw;
+    background-color: white;
+    color:#312D81;
+    border-radius: 30px;
+    text-align: center;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding-top:60px;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.webcam_info{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    padding-top: 30px;
+    padding-left:30px;
+    overflow:auto;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 25px;
+    display: block;
+    text-align:left;
+    font-weight: 500;
+}
+
+.webcam_info li{
+    display: block;
+    padding: 5px;
+    color: #000000;
+    font-size: 22px;
+}
+
+.webcam_title{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size:30px;
+    padding-top:30px;
+    padding-left:30px;
+    text-align:left;
+    font-weight: bold;
+}

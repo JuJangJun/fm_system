@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import WorkersForm
 from pOCR import OCRmodel
+from .ip_webcam_paddleOCR import Webcam
 
 from django.db import connection
 from .models import *
@@ -29,12 +30,13 @@ def create_worker(request):
 
 #### OCR 모델 돌리고 결과 화면에 출력 & 디비 저장 함수 ####
 ocr_model1 = OCRmodel()  # 모델 로드
-img = r"C:\Users\Playdata\Desktop\gungseo\501.png"
+img = r"C:\Users\Playdata\Desktop\gungseo\419.png"
 
 ## 출근 ##
 def check_attendance(request):
     # ocr 모델 recognize 실행
-    text, confidence = ocr_model1.recognize(img)
+    # text, confidence = Webcam()
+    text, confidence = ocr_model1.recognize()
     wid = re.findall('\d+', text[0])  # 정규표현식으로 숫자만 뽑음
 
     # today 날짜 출력
@@ -48,23 +50,24 @@ def check_attendance(request):
         
         if existing_attendance.exists():
             print(wid[0], '>> 이미 출근한 기록이 있습니다.')
-            return render(request, 'attend/attend.html', {'wid': '', 'confidence': '', 'msg': wid[0]+' => 이미 출근한 기록이 있습니다.'})
+            return render(request, 'attend/webcam.html', {'wid': '', 'confidence': '', 'msg': wid[0]+' => 이미 출근한 기록이 있습니다.'})
         
         else:
             attendance = Attendance.objects.create(w_id = worker)
             print(wid[0], '>> 출근 입력 완료')
             check = safety_chk(worker, attendance)  # detection 모델 + db 저장 함수
-            return render(request, 'attend/attend.html', {'wid': wid[0], 'confidence': confidence[0], 'msg': wid[0]+' => 출근 기록 완료!', 'code':check})
+            return render(request, 'attend/webcam.html', {'wid': wid[0], 'confidence': confidence[0], 'msg': wid[0]+' => 출근 기록 완료!', 'code':check})
         
     except Workers.DoesNotExist:
         print(wid[0], '>> 존재하지 않는 아이디')
-        return render(request, 'attend/attend.html', {'wid': '', 'confidence': '', 'msg': wid[0]+' => 존재하지 않는 작업자 아이디입니다.'})
+        return render(request, 'attend/webcam.html', {'wid': '', 'confidence': '', 'msg': wid[0]+' => 존재하지 않는 작업자 아이디입니다.'})
 
 
 ## 퇴근 ## 
 def check_leave(request):
     # OCR 모델 recognize 실행
-    text, confidence = ocr_model1.recognize(img)  # 이미지 입력 
+    # text, confidence = Webcam()
+    text, confidence = ocr_model1.recognize()
     wid = re.findall('\d+', text[0])  # 정규표현식으로 숫자만 뽑음
     today = date.today()  # today 날짜 출력
 

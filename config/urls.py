@@ -7,4 +7,5 @@ urlpatterns = [
     path('attend/', include('attend.urls')),
     path('access/', include('access.urls')),
     path('django_plotly_dash/', include('django_plotly_dash.urls')),  # 수연
+    path('', include('login.urls'))
 ]
