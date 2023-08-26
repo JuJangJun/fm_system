@@ -66,7 +66,7 @@ def check_attendance(request):
 #### Safety_check 테이블 입력 함수 - 입력: worker, attendance ####
 def safety_chk(worker, attendance):
     ### detection 모델 작동 > 결과 출력: RESULT ###
-    result = 'H' 
+    result = 'N' 
 
     # Safety_check 데이터 입력(외래키 att_id, w_id)
     safetycheck = Safety_check.objects.create(w_id = worker, att_id=attendance, sc_code=result)
