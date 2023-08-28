@@ -30,7 +30,7 @@ def create_worker(request):
 
 #### OCR 모델 돌리고 결과 화면에 출력 & 디비 저장 함수 ####
 ocr_model1 = OCRmodel()  # 모델 로드
-img = r"C:\Users\Playdata\Desktop\gungseo\531.png"
+img = r"C:\Users\Playdata\Desktop\gungseo\419.png"
 
 ## 출근 ##
 def check_attendance(request):
