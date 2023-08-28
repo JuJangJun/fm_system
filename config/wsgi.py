@@ -8,9 +8,15 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/
 """
 
 import os
-
 from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
-application = get_wsgi_application()
+
+
+
+# from scheduler import start  
+
+# start()  # 스케줄러 시작
+
+# application = get_wsgi_application()

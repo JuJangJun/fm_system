@@ -1,17 +1,12 @@
 from django.shortcuts import render
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.db.models import Count, F, ExpressionWrapper, IntegerField
-from django.utils.timezone import now
 
 from .models import *
 from pOCR import OCRmodel
 import re
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 from attend.models import Workers
-# Create your views here.
-
-
 
 #### 위험 지역 입출력 함수 ####
 ocr_model2 = OCRmodel()  # 모델 로드
@@ -106,5 +101,27 @@ def check_nums():
     )
 
     return result
+
+
+#### 기준 인원 미달일 경우 slack에 데이터 저장 함수 ####
+def check_and_save_to_slack():
+    # 위험 지역 인원수 파악
+    result = check_nums()
+
+    # 각 구역에 대해 현재 인원수가 1명 이상이고 기준 인원 미달인 경우,
+    # Slack 테이블에 데이터 저장
+    for place in result:
+        if place['현재_인원수'] >= 1 and place['미달_인원'] > 0:
+            msg = f"{place['구역_위치']}는 현재 {place['현재_인원수']}명이 있으며, {place['미달_인원']}명 더 필요합니다."
+            print('='*50)
+            print(msg)
+            
+            slack_message = Slack.objects.create(
+                msg = msg,
+                p_id = Place.objects.get(p_id=place['p_id']),
+            )
+            
+            slack_message.save()
+
 
 

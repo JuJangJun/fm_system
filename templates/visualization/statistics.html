@@ -67,17 +67,15 @@
             <div id="page-name-eg">Statistics</div>
             <div id="page-name-kr">통계상황</div>
         </div>
-        <div class="content">
-            <div class="content-1"> 
-                <div class="content-1_box">
-                    <div class="content-1_chart">
-                        <canvas id="pieChartCanvas1" width="420px" height="420px"></canvas>
-                    </div>
+        
+            <div class="content">
+                <div class="content-1">
+                    <h1>월별 보호구 미착용 비율</h1>
+                    {% plotly_app name="monthly_pie_chart" ratio=1.00 %}
+                    <h1>보호구 착용 여부 그래프</h1>
+                    {% plotly_app name="norm_bar_graph" ratio=1.00 %}
                 </div>
-                <h1>보호구 미착용</h1>
-                {% plotly_app name="dash_integration_id" ratio=1.00 %}
             </div>
-        </div>
     </div>
     <script>
         window.onload = () => {

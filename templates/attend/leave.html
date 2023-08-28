@@ -35,12 +35,6 @@
             <li><a href="{% url 'check_leave' %}"><div><img id="image_web" src="{% static 'src/webcam.png' %}" alt="webcam"></div><div style="margin-left:5px; color:#312D81" >퇴근</div></a></li>
             <li onmouseover="overStat()" onmouseout="outStat()"><a href="{% url 'user-statistics' %}"><div><img id="image_stat" src="{% static 'src/statistics_gray.png' %}" alt="statistics"></div><div style="margin-left:5px;">통계</div></a></li>
             <li onmouseover="overWork()" onmouseout="outWork()"><a href="{% url 'user-workarea' %}"><div><img id="image_work" src="{% static 'src/work-area_gray.png' %}" alt="work-area"></div><div style="margin-left:5px;">작업구역</div></a></li>
-            
-            
-            <!-- <li><a href="example_1/index.html"><div><img id="image_dash" src="{% static 'src/dashboard_gray.png' %}" alt="dashboard"></div><div style="margin-left:5px; ">대시보드</div></a></li>
-            <li><a href=""><div><img id="image_web" src="{% static 'src/webcam.png' %}" alt="webcam"></div><div style="margin-left:5px; color:#312D81" >웹캠</div></a></li>
-            <li><a href='statistics/'><div><img id="image_stat" src="{% static 'src/statistics_gray.png' %}" alt="statistics"></div><div style="margin-left:5px;">통계</div></a></li>
-            <li><a href='workarea/'><div><img id="image_work" src="{% static 'src/work-area_gray.png' %}" alt="work-area"></div><div style="margin-left:5px;">작업구역</div></a></li> -->
         </ul>
     </div>
     <div id="right">
@@ -52,11 +46,9 @@
             <div class="content-1">
                 <div>
                     <!-- width="380" height="400" -->
-                    <video id="video" width="480" height="540" autoplay></video>
-                    <button id="capture">Capture</button>
-                    <!-- {{cam}}웹캠 들어가는 곳 -->
-                    <!-- <img src = "http://127.0.0.1:8000/detectme"/> -->
-                    
+                    <!-- <video id="video" width="480" height="540" autoplay></video> -->
+                    <img id="webcam-image" src="" width="480" height="540">
+                    <button id="capture">Capture</button>    
                 </div>
             </div>
             <div class="content-2">
@@ -73,6 +65,8 @@
             </div>
         </div>
     </div>
+
+
     <script>
     function overDash(){
         let image = document.getElementById('image_dash');
@@ -106,9 +100,20 @@
         let image = document.getElementById('image_work');
         image.setAttribute("src", "{% static 'src/work-area_gray.png' %}")
     }
-
-
-
     </script>
+
+        <script type='text/javascript'>
+        // 웹페이지 로딩 후 실행되는 함수
+        document.addEventListener('DOMContentLoaded', function() {
+            var url = 'http://192.168.0.174:8080/shot.jpg';
+            var imgElement = document.getElementById('webcam-image');
+
+            // 이미지 소스를 주기적으로 업데이트
+            setInterval(function() {
+                imgElement.src = url + '?' + new Date().getTime();
+            }, 100); // 100ms 마다 업데이트
+        });
+    </script>
+
 </body>
 </html>
