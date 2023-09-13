@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- {% load plotly_dash %} -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시각화</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <!-- <div>
+    <h2>보호구 미착용</h2>
+        {% plotly_app name="dash_integration_id" ratio=1.00 %}
+    </div> -->
+    <div class="container">
+        <br>
+        <h3>월, 일별 보호구 착용 인원수 확인 뷰</h3>
+        <br>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>month</th>
+                    <th>day</th>
+                    <th>정상 착용 인원</th>
+                    <th>비정상 착용 인원</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for view in views1 %}
+                <tr>
+                    <td>{{ view.month }}</td>
+                    <td>{{ view.day }}</td>
+                    <td>{{ view.normal_cnt }}</td>
+                    <td>{{ view.unnormal_cnt }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <br>
+        <h3>월별 보호구 HGV별 인원수 조회 뷰</h3>
+        <br>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>month</th>
+                    <th>helmet</th>
+                    <th>goggle</th>
+                    <th>vest</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for view in views2 %}
+                <tr>
+                    <td>{{ view.month }}</td>
+                    <td>{{ view.helmet }}</td>
+                    <td>{{ view.goggle }}</td>
+                    <td>{{ view.vest }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

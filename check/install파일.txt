@@ -1,0 +1,8 @@
+pip install -r requirements.txt
+
+pip install tensorflow
+pip install keras
+pip install utils
+pip install datasets
+
+pip install --upgrade PyYAML
