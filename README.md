@@ -93,7 +93,7 @@ python manage.py migrate <br>
 pythoh manage.py runserver <br>
 
 ----------------------------------------
-주석해제
+주석해제 <br>
 python manage.py makemigrations <br>
 python manage.py migrate <br>
 pythoh manage.py runserver <br>
