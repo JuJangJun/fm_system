@@ -31,6 +31,7 @@ pip install django-apscheduler <br>
 python manage.py makemigrations <br>
 python manage.py migrate <br>
 pythoh manage.py runserver <br>
+
 -----------------------------------------
 pip install werkzeug==0.16.1 <br>
 pip install Flask==2.1.3 <br>
@@ -90,11 +91,12 @@ python manage.py runserver
 python manage.py makemigrations <br>
 python manage.py migrate <br>
 pythoh manage.py runserver <br>
+
 ----------------------------------------
 주석해제
-python manage.py makemigrations
-python manage.py migrate
-pythoh manage.py runserver
+python manage.py makemigrations <br>
+python manage.py migrate <br>
+pythoh manage.py runserver <br>
 -- new_month_safetycnt_view<br>
 CREATE VIEW new_month_safetycnt_view AS SELECT NULL AS id, MONTH(aa.attend_time) as 'month', sc.sc_code as 'code', COUNT(*) as 'code_count', vc.content as 'content' FROM attend_safety_check sc INNER JOIN visualization_codes vc ON sc.sc_code = vc.code
 INNER JOIN attend_attendance aa ON sc.att_id_id = aa.att_id GROUP BY month(aa.attend_time), sc.sc_code;
