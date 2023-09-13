@@ -82,15 +82,14 @@ DATABASES = jjjdb.DATABASES
 
 
 5. db 연결 확인 후 주석 해제
-
 python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 -------------------------------------------------
-주석
-python manage.py makemigrations
-python manage.py migrate
-pythoh manage.py runserver
+주석 <br>
+python manage.py makemigrations <br>
+python manage.py migrate <br>
+pythoh manage.py runserver <br>
 ----------------------------------------
 주석해제
 python manage.py makemigrations
