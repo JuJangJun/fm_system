@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>위험구역</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet"><!--폰트-->
+    <script src="{% static 'js/hover.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <!-- 추가 -->
+    <link rel="stylesheet" href="{% static 'css/webcam.css' %}">
+
+    <style>
+    .content{
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .content-1{
+        margin-left:40px;
+        display:flex;
+    }
+    .content-1>div{
+        height: 350px;
+        width: 40vw;
+        background-color: white;
+        border-radius: 30px;
+    }
+
+    table{
+        width:100%;
+        font-family: 'Noto Sans KR', sans-serif;
+        border: 2px solid #444444;
+        border-collapse: collapse;
+        padding: 10px;
+    }
+    th, td {
+        border: 2px solid #444444;
+        padding: 10px;
+    }
+    #warning-msg {
+        color: red;
+        font-weight: bold;
+    }
+    #ok-msg{
+        color: blue;
+        font-weight: bold;
+    }
+    #logout_btn{
+            font-family: 'Noto Sans KR', sans-serif;
+            margin-left:5px;
+            position:fixed;
+            bottom:0;
+            margin:0px 0px 15px 15px;
+            background-color:#312D81;
+            border-radius: 23px;
+            padding:13px;
+            color:white;
+            font-size: 13px;
+        } 
+
+    </style>
+
+</head>
+<body>
+    <div id="left">
+        <div class="header-sidebar">
+            <div id="company-logo">
+                <img src="{% static 'src/logo_real.png' %}" height="65px">
+            </div>
+        </div>
+        <ul id="menu-sidebar">
+            <li onmouseover="overDash()" onmouseout="outDash()"><a href="{% url 'user-dashboard' %}"><div><img id="image_dash" src="{% static 'src/dashboard_gray.png' %}" alt="dashboard"></div><div style="margin-left:5px; ">소개</div></a></li>
+            <li onmouseover="overWebcam()" onmouseout="outWebcam()"><a href="{% url 'user-webcam' %}"><div><img id="image_web" src="{% static 'src/go_gray.png' %}" alt="webcam"></div><div style="margin-left:5px;" >출근</div></a></li>
+            <li onmouseover="overleave()" onmouseout="outleave()"><a href="{% url 'check_leave' %}"><div><img id="image_leave" src="{% static 'src/out_gray.png' %}" alt="leave"></div><div style="margin-left:5px;" >퇴근</div></a></li>
+            <li><a href="{% url 'user-workarea' %}"><div><img id="image_work" src="{% static 'src/work-area.png' %}" alt="work-area"></div><div style=" color:#312D81; margin-left:5px;">위험구역</div></a></li>
+            <li onmouseover="overStat()" onmouseout="outStat()"><a href="{% url 'user-statistics' %}"><div><img id="image_stat" src="{% static 'src/statistics_gray.png' %}" alt="statistics"></div><div style="margin-left:5px;">통계</div></a></li>
+            <li></li>
+        </ul>
+        <div id="logout_btn"><a style="color:white; text-decoration: none;" href="{% url 'user-logout' %}">로그아웃</a></div>
+    </div>
+    <div id="right">
+        <div class="page-name">
+            <div id="page-name-eg">Work Area</div>
+            <div id="page-name-kr">위험구역</div>
+        </div>
+        <div class="content">
+            <div class="content-1">
+                <div class="content-1-1">
+                    <!-- {{cam}}웹캠 들어가는 곳 -->
+                    <img id="webcam-image" src="" width="480" height="540">
+                    <button id="capture">Capture</button>  
+                </div>
+                <div class="content-1-2">
+                    <div>
+                        <div class="webcam_title">인식 정보</div>
+                        <ul class="webcam_info"><!-- 정보 데이터 들어가는 곳 -->
+                            <li style="margin-bottom:30px;"><div>IN : </div><div> {{ wid_in }}</div></li>
+                            <li style="margin-bottom:40px;"><div style="font-size: 18px;">  [time] </div><div style="font-size: 18px;"> {{ msg1 }}</div></li>
+                            <li style="margin-bottom:30px;"><div>OUT : </div><div> {{ wid_out }}</div></li>
+                            <li style="margin-bottom:50px;"><div style="font-size: 18px;">  [time] </div><div style="font-size: 18px;"> {{ msg2 }}</div></li>
+                        </ul>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        {% if datas %}
+                        {% for data in datas %}
+                            {% if data.기준_인원 > data.현재_인원수 %}
+                            <p id="warning-msg">!!!! 경고 : {{ data.구역_위치 }} - 기준 인원 {{ data.미달_인원 }}명 미달 !!!!</p>
+                            {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        <p id="warning-msg" style="color:blueviolet;">{{msg}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="content-2">
+                <div class="content-2_1" style="padding:50px">
+                    {% if datas %}
+                    <table><!-- 차트 들어가는 곳 -->
+                        <th>구역 코드</th>
+                        <th>구역 위치</th>
+                        <th>위험도</th>
+                        <th>기준 인원</th>
+                        <th>현재 인원수</th>
+                    {% for data in datas %}
+                    <tr><!-- 첫번째 데이터 -->
+                        <td>{{ data.구역코드 }}</td>
+                        <td>{{ data.구역_위치 }}</td>
+                        <td>{{ data.위험도 }}</td>
+                        <td>{{ data.기준_인원 }}</td>
+                        <td>{{ data.현재_인원수 }}</td>
+                    </tr>
+                    {% endfor %}
+                    </table>
+                    {% else %}
+                    <p id="ok-msg">모든 작업 구역에 작업자가 없습니다.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+        function overDash(){
+        let image = document.getElementById('image_dash');
+        image.setAttribute("src", "{% static 'src/dashboard.png' %}")
+    }
+    function outDash(){
+        let image = document.getElementById('image_dash');
+        image.setAttribute("src", "{% static 'src/dashboard_gray.png' %}")
+    }
+    function overWebcam() {
+        let image = document.getElementById('image_web');
+        image.setAttribute("src", "{% static 'src/go.png' %}")
+    }
+    function outWebcam(){
+        let image = document.getElementById('image_web');
+        image.setAttribute("src", "{% static 'src/go_gray.png' %}")
+    }
+    function overleave() {
+        let image = document.getElementById('image_leave');
+        image.setAttribute("src", "{% static 'src/out.png' %}")
+    }
+    function outleave(){
+        let image = document.getElementById('image_leave');
+        image.setAttribute("src", "{% static 'src/out_gray.png' %}")
+    }
+    function overStat() {
+        let image = document.getElementById('image_stat');
+        image.setAttribute("src", "{% static 'src/statistics.png' %}")
+    }
+    function outStat(){
+        let image = document.getElementById('image_stat');
+        image.setAttribute("src", "{% static 'src/statistics_gray.png' %}")
+    }
+    function overWork() {
+        let image = document.getElementById('image_work');
+        image.setAttribute("src", "{% static 'src/work-area.png' %}")
+    }
+    function outWork(){
+        let image = document.getElementById('image_work');
+        image.setAttribute("src", "{% static 'src/work-area_gray.png' %}")
+    }
+    </script>
+
+    <script type='text/javascript'>
+        // 웹페이지 로딩 후 실행되는 함수
+        document.addEventListener('DOMContentLoaded', function() {
+            var url = 'http://192.168.0.8:8080/shot.jpg';
+            var imgElement = document.getElementById('webcam-image');
+
+            // 이미지 소스를 주기적으로 업데이트
+            setInterval(function() {
+                imgElement.src = url + '?' + new Date().getTime();
+            }, 100); // 100ms 마다 업데이트
+        });
+    </script>
+
+    <!--  페이지가 로드될 때 모든 <a> 태그 (링크)에 클릭 이벤트 리스너를 추가
+        사용자가 링크 중 하나를 클릭하면 clearInterval 함수가 호출되어 페이지 새로고침을 중지 -->
+    <script>
+        // 전역 변수로 timerId 선언 (3초 간격)
+        let timerId = setInterval(() => location.reload(), 3000);
+
+        window.onload = function() {
+        const buttons = document.querySelectorAll('a'); // 모든 a태그 선택
+
+        for(let i=0; i<buttons.length; i++) { 
+            buttons[i].addEventListener("click", function() { 
+                clearInterval(timerId); 
+            });
+        }
+        };
+    </script>
+
+    <!-- <script>
+        // 3초 간격(변경사항)
+        let timerId = setInterval(() => location.reload(), 3000);
+        // 250초 후에 정지(변경사항)
+        // setTimeout(() => { clearInterval(timerId); }, 250000);
+    </script> -->
+</body>
+</html>

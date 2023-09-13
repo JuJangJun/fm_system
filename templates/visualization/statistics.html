@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    {% load plotly_dash %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통계</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet"> 
+    <script src="{% static 'js/hover.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css"> 
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script src="{% static 'js/statChart1.js' %}"></script>
+    <script src="{% static 'js/statChart2.js' %}"></script>
+    <style>
+    .content{
+        display:inline-flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    .content-1{
+        height:300px;
+    }
+    .content-1>div{
+        float:left;
+        height: 300px;
+        width: 1233px;
+        background-color: white;
+        margin : 0px 40px 40px 40px;
+        border-radius: 30px;
+    }
+
+    .content-1_chart{
+        height: 600px;
+        width: 600px;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #logout_btn{
+            font-family: 'Noto Sans KR', sans-serif;
+            margin-left:5px;
+            position:fixed;
+            bottom:0;
+            margin:0px 0px 15px 15px;
+            background-color:#312D81;
+            border-radius: 23px;
+            padding:13px;
+            color:white;
+            font-size: 13px;
+        } 
+    </style>
+    
+</head>
+<body>
+    <div id="left">
+        <div class="header-sidebar">
+            <div id="company-logo">
+                <img src="{% static 'src/logo_real.png' %}" height="65px">
+            </div>
+            <!-- <div id="company-name">
+                Factory<br>Manager
+            </div> -->
+
+        </div>
+        <ul id="menu-sidebar">
+            <li onmouseover="overDash()" onmouseout="outDash()"><a href="{% url 'user-dashboard' %}"><div><img id="image_dash" src="{% static 'src/dashboard_gray.png' %}" alt="dashboard"></div><div style="margin-left:5px; ">소개</div></a></li>
+            <li onmouseover="overWebcam()" onmouseout="outWebcam()"><a href="{% url 'user-webcam' %}"><div><img id="image_web" src="{% static 'src/go_gray.png' %}" alt="webcam"></div><div style="margin-left:5px;" >출근</div></a></li>
+            <li onmouseover="overleave()" onmouseout="outleave()"><a href="{% url 'check_leave' %}"><div><img id="image_leave" src="{% static 'src/out_gray.png' %}" alt="leave"></div><div style="margin-left:5px;" >퇴근</div></a></li>
+            <li onmouseover="overWork()" onmouseout="outWork()"><a href="{% url 'user-workarea' %}"><div><img id="image_work" src="{% static 'src/work-area_gray.png' %}" alt="work-area"></div><div style="margin-left:5px;">위험구역</div></a></li>
+            <li><a href="{% url 'user-statistics' %}"><div><img id="image_stat" src="{% static 'src/statistics.png' %}" alt="statistics"></div><div style="margin-left:5px; color:#312D81">통계</div></a></li>
+        </ul>
+        <div id="logout_btn"><a style="color:white; text-decoration: none;" href="{% url 'user-logout' %}">로그아웃</a></div>
+    </div>
+    <div id="right">
+        <div class="page-name">
+            <div id="page-name-eg">Statistics</div>
+            <div id="page-name-kr">통계 상황</div>
+        </div>
+        
+            <div class="content">
+                <div class="content-1">
+                    {% plotly_app name="monthly_chart" ratio=0.4 %}
+                </div>
+            </div>
+    </div>
+    <script>
+        function overDash(){
+        let image = document.getElementById('image_dash');
+        image.setAttribute("src", "{% static 'src/dashboard.png' %}")
+        }
+        function outDash(){
+            let image = document.getElementById('image_dash');
+            image.setAttribute("src", "{% static 'src/dashboard_gray.png' %}")
+        }
+        function overWebcam() {
+            let image = document.getElementById('image_web');
+            image.setAttribute("src", "{% static 'src/go.png' %}")
+        }
+        function outWebcam(){
+            let image = document.getElementById('image_web');
+            image.setAttribute("src", "{% static 'src/go_gray.png' %}")
+        }
+        function overleave() {
+        let image = document.getElementById('image_leave');
+        image.setAttribute("src", "{% static 'src/out.png' %}")
+        }
+        function outleave(){
+            let image = document.getElementById('image_leave');
+            image.setAttribute("src", "{% static 'src/out_gray.png' %}")
+        }
+        function overStat() {
+            let image = document.getElementById('image_stat');
+            image.setAttribute("src", "{% static 'src/statistics.png' %}")
+        }
+        function outStat(){
+            let image = document.getElementById('image_stat');
+            image.setAttribute("src", "{% static 'src/statistics_gray.png' %}")
+        }
+        function overWork() {
+            let image = document.getElementById('image_work');
+            image.setAttribute("src", "{% static 'src/work-area.png' %}")
+        }
+        function outWork(){
+            let image = document.getElementById('image_work');
+            image.setAttribute("src", "{% static 'src/work-area_gray.png' %}")
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}   
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>출근</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet"><!--폰트-->
+    <script src="{% static 'js/hover.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/attend.css' %}">
+    <style>
+    #logout_btn{
+        font-family: 'Noto Sans KR', sans-serif;
+        margin-left:5px;
+        position:fixed;
+        bottom:0;
+        margin:0px 0px 15px 15px;
+        background-color:#312D81;
+        border-radius: 23px;
+        padding:13px;
+        color:white;
+        font-size: 13px;
+    } 
+
+    </style>
+</head>
+
+<body>
+    <div id="left">
+        <div class="header-sidebar">
+            <div id="company-logo">
+                <img src="{% static 'src/logo_real.png' %}" height="65px">
+            </div>
+            <!-- <div id="company-name">
+                Factory<br>Manager
+            </div> -->
+
+        </div>
+        <ul id="menu-sidebar">
+            <li onmouseover="overDash()" onmouseout="outDash()"><a href="{% url 'user-dashboard' %}"><div><img id="image_dash" src="{% static 'src/dashboard_gray.png' %}" alt="dashboard"></div><div style="margin-left:5px; ">소개</div></a></li>
+            <li><a href="{% url 'user-webcam' %}"><div><img id="image_web" src="{% static 'src/go.png' %}" alt="webcam"></div><div style="margin-left:5px; color:#312D81" >출근</div></a></li>
+            <li onmouseover="overleave()" onmouseout="outleave()"><a href="{% url 'check_leave' %}"><div><img id="image_leave" src="{% static 'src/out_gray.png' %}" alt="leave"></div><div style="margin-left:5px;" >퇴근</div></a></li>
+            <li onmouseover="overWork()" onmouseout="outWork()"><a href="{% url 'user-workarea' %}"><div><img id="image_work" src="{% static 'src/work-area_gray.png' %}" alt="work-area"></div><div style="margin-left:5px;">위험구역</div></a></li>
+            <li onmouseover="overStat()" onmouseout="outStat()"><a href="{% url 'user-statistics' %}"><div><img id="image_stat" src="{% static 'src/statistics_gray.png' %}" alt="statistics"></div><div style="margin-left:5px;">통계</div></a></li>
+        </ul>
+        <div id="logout_btn"><a style="color:white; text-decoration: none;" href="{% url 'user-logout' %}">로그아웃</a></div>
+    </div>
+    <div id="right">
+        <div class="page-name">
+            <div id="page-name-eg">Webcam</div>
+            <div id="page-name-kr">출근</div>
+        </div>
+        <div class="content">
+            <div class="content-1">
+                <div>
+                    <img id="webcam-image" src="" width="480" height="540">
+                    <button id="capture">Capture</button>    
+                </div>
+
+            </div>
+            <div class="content-2">
+                <div class="content-2_1">
+                    <div class="webcam_title">인식 정보</div>
+                    <ul class="webcam_info"><!-- 정보 데이터 들어가는 곳 -->
+                        <li style="margin-bottom:50px;"><div>PIN : </div><div> {{ wid }}</div></li>
+                        <li style="margin-bottom:50px;"><div>Worker : </div><div> {{ wname }}</div></li>
+                        <li style="font-size:20px;"><div>CODE : </div><div> {{ code }}</div></li>
+                    </ul>
+                </div>
+                <div class="content-2_2"><!-- 웹캠 문구 확인 문구 들어가는 곳 -->
+                    <div id="message"> <!--추가한 부분, 확인중 메시지 넣기 위함-->
+                        {{msg}}
+                    </div>
+                    <div id="message">{{msg2}}</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function overDash(){
+            let image = document.getElementById('image_dash');
+            image.setAttribute("src", "{% static 'src/dashboard.png' %}")
+        }
+        function outDash(){
+            let image = document.getElementById('image_dash');
+            image.setAttribute("src", "{% static 'src/dashboard_gray.png' %}")
+        }
+        function overWebcam() {
+            let image = document.getElementById('image_web');
+            image.setAttribute("src", "{% static 'src/go.png' %}")
+        }
+        function outWebcam(){
+            let image = document.getElementById('image_web');
+            image.setAttribute("src", "{% static 'src/go_gray.png' %}")
+        }
+        function overleave() {
+            let image = document.getElementById('image_leave');
+            image.setAttribute("src", "{% static 'src/out.png' %}")
+        }
+        function outleave(){
+            let image = document.getElementById('image_leave');
+            image.setAttribute("src", "{% static 'src/out_gray.png' %}")
+        }
+        function overStat() {
+            let image = document.getElementById('image_stat');
+            image.setAttribute("src", "{% static 'src/statistics.png' %}")
+        }
+        function outStat(){
+            let image = document.getElementById('image_stat');
+            image.setAttribute("src", "{% static 'src/statistics_gray.png' %}")
+        }
+        function overWork() {
+            let image = document.getElementById('image_work');
+            image.setAttribute("src", "{% static 'src/work-area.png' %}")
+        }
+        function outWork(){
+            let image = document.getElementById('image_work');
+            image.setAttribute("src", "{% static 'src/work-area_gray.png' %}")
+        }
+    </script>
+
+    <script type='text/javascript'>
+        // 웹페이지 로딩 후 실행되는 함수
+        document.addEventListener('DOMContentLoaded', function() {
+            var url = 'http://192.168.0.5:8080/shot.jpg';
+            var imgElement = document.getElementById('webcam-image');
+
+            // 이미지 소스를 주기적으로 업데이트
+            setInterval(function() {
+                imgElement.src = url + '?' + new Date().getTime();
+            }, 100); // 100ms 마다 업데이트
+        });
+    </script>
+    
+    <script>
+            // 40초 간격(변경사항)
+            let timerId = setInterval(() => location.reload(), 5000);
+            // 250초 후에 정지(변경사항)
+            setTimeout(() => { clearInterval(timerId); }, 250000);
+    </script>
+
+
+    <!-- ajax 활용 check_attendance 실행 확인 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function(){
+        // 이 부분의 코드는 HTML 문서가 완전히 로드된 후에 실행
+        $.ajax({
+            url: "{% url 'user-webcam' %}",  // check_attendance 함수가 실행되는 URL
+            type: 'GET',
+            
+            success: function(result){
+                if (result.success) {  // 결과에 따라 메시지 변경
+                    // $("#message").html("출석 확인 완료");
+                } else {
+                    $("#message").html("확인 중..");
+                }
+            },
+            error: function(error){
+                console.log(error);
+                $("#message").html("서버 에러 발생");
+            }
+        });
+    });
+    </script>
+
+</body>
+</html>

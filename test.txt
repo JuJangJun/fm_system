@@ -1,0 +1,7 @@
+## attend_workers에 존재하는 작업자만 출석 등록
+attend_workers_w_ids = attend_workers.objects.all().values('w_id')
+
+attend_workers_w_ids = list(attend_workers.objects.all().values_list('w_id', flat=True))
+print(attend_workers_w_ids)
+
+

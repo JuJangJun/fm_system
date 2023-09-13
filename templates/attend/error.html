@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/error.css' %}">
+    <title>ERROR</title>
+</head>
+<body>
+    <div class="error-page">
+        <div class="wrapper">
+            <div class="company-logo">
+                <img src = "{% static 'src/logo_real.png' %}" height="110px">
+            </div>
+            <div class="error-msg">IP_webcam 연결 오류 - 카메라 연결 상태를 다시 확인하세요.</div>
+        </div>
+        <div id="goto_home"><a style="color:white; text-decoration: none;" href="{% url 'user-dashboard' %}">Go to Home</a></div>
+    </div>
+</body>
+</html>
